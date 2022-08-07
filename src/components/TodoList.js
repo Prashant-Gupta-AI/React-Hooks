@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import AddNewTodo from "./AddNewTodo";
 
 const TodoList = () =>{
     const [todos, setTodos] = useState([
@@ -7,25 +8,32 @@ const TodoList = () =>{
         {text:'Feed the cat', id:3}
     ]);
 
-    const addTodo = () =>{
+    const [count, setCount] = useState(0);
+
+    const addTodo = (text) =>{
         setTodos([
             ...todos,
-            { text:'Learn Hooks', id:Math.random()}
+            { text:text, id:Math.random()}
         ]);
 
     };
 
+    useEffect(() =>{
+        console.log('use effects', todos);
+    }, [todos]);
+
     
     return(
         <div>
-            <ul>
+             <ul>
                {todos.map((todo) => {
                 return(
                     <li key={todo.id}>{todo.text}</li>
                 )
                 })}
             </ul>
-            <button onClick={addTodo}> Add a Todo</button>
+            <AddNewTodo addTodo={addTodo} />
+            <button onClick ={() => setCount(count+1)}>Score: {count}</button>
         </div>
     )
 };
